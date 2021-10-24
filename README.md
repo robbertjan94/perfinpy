@@ -4,6 +4,4 @@
 
 # perfinpy: Python personal finances manager
 
-## What is it?
-
 **perfinpy** is a Python package that ...
