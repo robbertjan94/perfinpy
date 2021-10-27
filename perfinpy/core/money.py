@@ -19,10 +19,9 @@ class Currency:
     """Base currency object."""
 
     def __init__(self, acronym: str):
-        if acronym in _currencies_list:
-            self.acronym = acronym
-        else:
+        if acronym not in _currencies_list:
             raise ValueError
+        self.acronym = acronym            
 
     def __repr__(self):
         return f'Currency({self.acronym})'
@@ -59,4 +58,3 @@ class Money:
     def compatible(self, other: Money) -> bool:
         """Checks if `self` and `other` are denominated in the same currency."""
         return self.currency == other.currency
-
