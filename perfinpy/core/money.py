@@ -29,6 +29,9 @@ class Currency:
     def __str__(self):
         return self.acronym
 
+    def __eq__(self, other: Currency):
+        return self.acronym == other.acronym
+
     def _fx_rate(self, other: Currency, datetime: dt.datetime = None):
         raise NotImplementedError
 
@@ -49,6 +52,10 @@ class Money:
 
     def __str__(self):
         return f'{self.currency} {self.value}'
+
+    def __eq__(self, other: Money) -> bool:
+        same_value = self.value == other.value
+        return same_value and self.compatible(other)
 
     def __add__(self, other: Money) -> Money:
         if not self.compatible(other):
