@@ -9,7 +9,7 @@ from perfinpy.utils import read_file
 _currency_acronyms_path = os.path.join('data', 'currency_acronyms.txt')
 
 def _get_currency_acronyms(path=_currency_acronyms_path) -> List[str]:
-    """Read valid currency acronyms."""
+    """Read valid currency acronyms from file."""
     s = read_file(path)
     return s.split('\n')
 
