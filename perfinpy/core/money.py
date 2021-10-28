@@ -57,11 +57,55 @@ class Money:
         same_value = self.value == other.value
         return same_value and self.compatible(other)
 
-    def __add__(self, other: Money) -> Money:
-        if not self.compatible(other):
-            raise TypeError
-        return Money(self.value+other.value, self.currency)
+    def __add__(self, other: Money | int | float) -> Money:
+        if isinstance(other, (int, float)):
+            return Money(self.value+other, self.currency)
+        if isinstance(other, Money):
+            if self.compatible(other):
+                return Money(self.value+other.value, self.currency)
+        raise TypeError
+
+    def __radd__(self, other: Money | int | float) -> Money:
+        return self + other
+
+    def __sub__(self, other: Money | int | float) -> Money:
+        if isinstance(other, (int, float)):
+            return Money(self.value-other, self.currency)
+        if isinstance(other, Money):
+            if self.compatible(other):
+                return Money(self.value-other.value, self.currency)
+        raise TypeError
+
+    def __rsub__(self, other: Money | int | float) -> Money:
+        return other - self
+
+    def __mul__(self, other):
+        if isinstance(other, (int, float)):
+            return Money(self.value*other, self.currency)
+        if isinstance(other, Money):
+            if self.compatible(other):
+                return Money(self.value*other.value, self.currency)
+        raise TypeError
+
+    def __rmul__(self, other):
+        return self * other
+
+    def __truediv__(self, other):
+        if isinstance(other, (int, float)):
+            return Money(self.value/other, self.currency)
+        if isinstance(other, Money):
+            if self.compatible(other):
+                return Money(self.value/other.value, self.currency)
+        raise TypeError
+
+    def __rtruediv__(self, other):
+        if isinstance(other, (int, float)):
+            return Money(other/self.value, self.currency)
+        if isinstance(other, Money):
+            if self.compatible(other):
+                return Money(other.value/self.value, self.currency)
+        raise TypeError
 
     def compatible(self, other: Money) -> bool:
-        """Checks if `self` and `other` are denominated in the same currency."""
+        """Checks equality of denominations."""
         return self.currency == other.currency
